@@ -2,7 +2,7 @@ node_modules/
 .venv/
 __pycache__/
 # Raw images are re-downloadable with tools/fetch_spheroscan.py
-data/
+/data/
 .claude/
 .netlify/
 # Private: draft outreach email
