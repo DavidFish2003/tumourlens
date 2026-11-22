@@ -1,0 +1,7 @@
+{
+  "name": "tumourlens",
+  "private": true,
+  "type": "module",
+  "scripts": { "validate": "node tools/validate.mjs --holdout --json", "serve": "npx --yes http-server web -p 5176 -c-1" },
+  "devDependencies": { "jpeg-js": "^0.4.4" }
+}

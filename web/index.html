@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TumourLens</title>
+  <meta name="description" content="Measure spheroids from microscope images and turn a plate map into dose-response curves, right in the browser.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="wrap top">
+    <h1>TumourLens</h1>
+    <p class="lede">Measure spheroids from microscope images and turn a plate map into dose-response curves. Everything runs in your browser; images are never uploaded.</p>
+    <p class="stats" id="stats"></p>
+  </header>
+
+  <main class="wrap">
+    <section class="block first">
+      <h2><span class="n">1</span>Add images</h2>
+      <label class="drop" id="drop">
+        <input type="file" id="files" accept="image/*" multiple hidden>
+        <b>Drop spheroid images here</b> or click to choose. JPG or PNG, brightfield or phase contrast.
+      </label>
+      <div class="row">
+        <button class="btn ghost" id="example">Try example images</button>
+        <label class="field">Sensitivity
+          <input type="range" id="sens" min="0.8" max="1.6" step="0.05" value="1.2">
+          <span id="sens-v">1.20</span>
+        </label>
+        <label class="field">µm per pixel <input type="number" id="umpp" min="0" step="any" placeholder="optional"></label>
+      </div>
+      <p class="hint" id="status"></p>
+    </section>
+
+    <section class="block" id="results-block" hidden>
+      <div class="row-head">
+        <h2><span class="n">2</span>Check the outlines</h2>
+        <button class="link-btn" id="export">Download CSV</button>
+      </div>
+      <p class="sub">Untick any image whose outline is wrong; it's left out of the results. Lower the sensitivity if outlines are too small, raise it if they're too big.</p>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section class="block" id="plate-block" hidden>
+      <h2><span class="n">3</span>Plate map</h2>
+      <p class="sub">One row per image: <code>file,condition,value</code>. The value is a dose or a time, and files can be matched by part of their name (for example a well ID).</p>
+      <div class="plate">
+        <textarea id="plate" spellcheck="false" placeholder="file,condition,value&#10;A1,Drug X,0&#10;A2,Drug X,0.1&#10;..."></textarea>
+        <div class="plate-side">
+          <label class="field">Value is
+            <select id="xkind"><option value="dose">Dose (fit IC50)</option><option value="time">Time (growth)</option></select>
+          </label>
+          <label class="field">Unit <input id="xunit" value="µM" size="6"></label>
+          <button class="btn" id="apply">Plot</button>
+          <p class="hint" id="plate-msg"></p>
+        </div>
+      </div>
+      <div id="chart-wrap" hidden>
+        <div class="legend" id="legend"></div>
+        <div class="chart-box"><canvas id="chart" role="img" aria-label="Spheroid size against dose or time"></canvas></div>
+        <div class="fits" id="fits"></div>
+      </div>
+    </section>
+
+    <section class="block" id="accuracy">
+      <h2>How accurate is the outlining?</h2>
+      <p class="sub">Tested against expert-drawn outlines on images the method was never tuned on. Dice measures overlap: 1.0 is a perfect match, 0.8 or more is a good outline.</p>
+      <table class="acc"><thead><tr><th>Images</th><th class="num">Tested</th><th class="num">Median Dice</th><th class="num">Good outlines</th></tr></thead><tbody id="acc-body"></tbody></table>
+      <p class="hint">It works best when the spheroid is more textured than its background. Smooth spheroids on a grainy background can be missed, so always check the outlines in step 2.</p>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <p>Validation and example images: SpheroScan supporting data (Akshay et al., 2023; <a href="https://doi.org/10.5281/zenodo.7555467">doi:10.5281/zenodo.7555467</a>, CC0). The examples were picked from images the method outlines well; the accuracy table shows typical results. The example plate map uses each image's real timepoint. Research prototype.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
