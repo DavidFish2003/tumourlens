@@ -66,8 +66,8 @@
 
     <section class="block" id="accuracy">
       <h2>How accurate is the outlining?</h2>
-      <p class="sub">Tested against expert-drawn outlines on images the method was never tuned on. Dice measures overlap: 1.0 is a perfect match, 0.8 or more is a good outline.</p>
-      <table class="acc"><thead><tr><th>Images</th><th class="num">Tested</th><th class="num">Median Dice</th><th class="num">Good outlines</th></tr></thead><tbody id="acc-body"></tbody></table>
+      <p class="sub">Tested against outlines drawn by experts, on images the method was never tuned on. The match score measures how much the two outlines overlap: 1.0 is identical, 0.8 or more is a good outline.</p>
+      <table class="acc"><thead><tr><th>Images</th><th class="num">Tested</th><th class="num">Match score (median)</th><th class="num">Good outlines</th></tr></thead><tbody id="acc-body"></tbody></table>
       <p class="hint">It works best when the spheroid is more textured than its background. Smooth spheroids on a grainy background can be missed, so always check the outlines in step 2.</p>
     </section>
   </main>

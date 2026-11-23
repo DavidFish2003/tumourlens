@@ -14,7 +14,7 @@ fetch("data/validation.json").then((r) => r.json()).then((v) => {
   const rows = [["IncuCyte (whole-well)", v.summary.IncuCyte], ["Microscope (brightfield)", v.summary.Microscope], ["All", v.summary.All]];
   $("#acc-body").innerHTML = rows.map(([n, s]) =>
     `<tr><td>${n}</td><td class="num">${s.n}</td><td class="num">${s.dice_median.toFixed(2)}</td><td class="num">${s.good} of ${s.n}</td></tr>`).join("");
-  $("#stats").textContent = `Outlines match experts with a median Dice of ${v.summary.All.dice_median.toFixed(2)} on ${v.summary.All.n} held-out images · no install, no upload`;
+  $("#stats").textContent = `Outlines match experts with a median score of ${v.summary.All.dice_median.toFixed(2)} on ${v.summary.All.n} test images · no install, no upload`;
 }).catch(() => {});
 
 // ---------- loading images ----------
